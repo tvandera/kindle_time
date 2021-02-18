@@ -1,29 +1,20 @@
-#!/bin/bash
+#!/mnt/usr/clock/bin/bash
+
+ROOT=/mnt/us/clock
+FBINK=$ROOT/bin/fbink
 
 # if the Kindle is not being used as clock, then just quit
-test -f /mnt/us/timelit/clockisticking || exit
+test -f /mnt/us/clock/clockisticking || exit
 
-
-# find the current minute of the day
-MinuteOTheDay="$(env date -R +"%H%M")";
-
-# check if there is at least one image for this minute 
-lines="$(find /mnt/us/timelit/images/quote_$MinuteOTheDay* 2>/dev/null | wc -l)"
-if [ $lines -eq 0 ]; then
-	echo 'no images found for '$MinuteOTheDay
-	exit
-else
-	echo $lines' files found for '$MinuteOTheDay
-fi
-
-
-# randomly pick a png file for that minute (since we have multiple for some minutes)
-ThisMinuteImage=$( find /mnt/us/timelit/images/quote_$MinuteOTheDay* 2>/dev/null | python -c "import sys; import random; print(''.join(random.sample(sys.stdin.readlines(), int(sys.argv[1]))).rstrip())" 1)
-
-echo $ThisMinuteImage > /mnt/us/timelit/clockisticking
+TIME=$(date -R +"%H%M")
 
 # clear the screen
 eips -c
 
-# show that image
-eips -g $ThisMinuteImage
+$FBINK -g  "file=$ROOT/images/${TIME:0:1}.png,x=100,y=100"
+$FBINK -g  "file=$ROOT/images/${TIME:1:1}.png,x=300,y=100"
+$FBINK -g  "file=$ROOT/images/${TIME:2:1}.png,x=100,y=400"
+$FBINK -g  "file=$ROOT/images/${TIME:3:1}.png,x=300,y=400"
+
+
+echo $TIME >/mnt/us/clock/clockisticking
