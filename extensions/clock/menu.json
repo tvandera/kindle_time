@@ -1,0 +1,20 @@
+{
+    "items": [
+    {
+        "name": "Kindle Clock",
+        "priority": -1,
+        "items": [
+        {
+            "name": "Start Clock",
+            "priority": 1,
+            "exitmenu": false,
+            "checked": true,
+            "refresh": false,
+            "status": false,
+            "internal": "status Rebuilding collections (from librarian) . . .",
+            "action": "./start_clock.sh"
+        }
+        ]
+    }
+    ]
+}
